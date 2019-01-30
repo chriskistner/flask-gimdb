@@ -41,8 +41,8 @@ class Actors(db.Model):
 class MovieActors(db.Model):
     __tablename__='movie_actors'
     id = db.Column(db.Integer, primary_key=True)
-    movies_id = db.Column(db.Integer, db.ForignKey('movies.id'), nullable=False)
-    actors_id = db.Column(db.Integer, db.ForeignKey('actors.id'), nullable=False)
+    movies_id = db.Column(db.Integer, db.ForignKey('movies.id', onupdate="CASCADE", ondelete="CASCADE"), nullable=False)
+    actors_id = db.Column(db.Integer, db.ForeignKey('actors.id', onupdate="CASCADE", ondelete="CASCADE"), nullable=False)
     role = db.Column(db.String(120), nullable=False)
 
     def createDict(self):
