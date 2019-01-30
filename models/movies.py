@@ -28,6 +28,7 @@ def GetMovie(id):
     if result is None:
         raise InvalidUsage('Error, Movie not found', status_code= 404)
     else:
+        print(result)
         return Movies.serialize_list(result)
 
 

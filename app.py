@@ -10,7 +10,8 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db=SQLAlchemy(app)
 db.init_app(app)
 
-import controllers.movies as movies
+from controllers.movies import *
+from models.movies import *
 
 @app.route('/')
 
@@ -21,28 +22,28 @@ def hello_world():
 @app.route('/movies', methods=['GET', 'POST'])
 def MoviesRoutes():
     if request.method == 'GET':
-        result = movies.GetAll()
+        result = GetAll()
         return jsonify(result)
     elif request.method == 'POST':
         data = request.form
-        result = movies.CreateMovie(data)
+        result = CreateMovie(data)
         return jsonify(result)
 
 @app.route('/movies/<movieId>', methods=['GET', 'DELETE'])
 def MovieRoutes(movieId):
     if request.method == 'GET':
-        result = movies.GetMovie(movieId)
+        result = GetMovie(movieId)
         return jsonify(result)
     elif request.method == 'DELETE':
-        result = movies.DropMovie(movieId)
+        result = DropMovie(movieId)
         return jsonify(result)
 
 # Error Handler Route
-@app.errorhandler(InvalidUsage)
-def handle_invalid_usage(error):
-    response = jsonify(error.to_dict())
-    response.status_code = error.status_code
-    return response
+# @app.errorhandler(InvalidUsage)
+# def handle_invalid_usage(error):
+#     response = jsonify(error.to_dict())
+#     response.status_code = error.status_code
+#     return response
 
 if __name__ == '__main__':
     app.run()
