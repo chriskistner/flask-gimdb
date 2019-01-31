@@ -11,7 +11,8 @@ class Movies(db.Model):
     release_date = db.Column(db.DateTime, unique=False, nullable=False)
     rating = db.Column(db.String(5), unique=False, nullable=False)
     poster_url = db.Column(db.Text(), unique=False, nullable=True)
-    created_at = db.Column(db.DateTime, unique=False, default=db.func.now(), onupdate=db.func.now())
+    created_at = db.Column(db.DateTime, unique=False, default=db.func.now())
+    updated_at = db.Column(db.DateTime, unique=False, default=db.func.now(), onupdate=db.func.now())
     # actors = relationship('Actors', secondary = 'MovieActors')
 
     def __init__(self, name, description, release_date, rating, poster_url):
@@ -35,9 +36,15 @@ class Actors(db.Model):
     biography = db.Column(db.Text, unique=False, nullable=False)
     profile_url = db.Column(db.Text, unique=False, nullable=True)
     birth_date = db.Column(db.DateTime, unique=False, nullable=True)
-    created_at = db.Column(db.DateTime, unique=False)
-    updated_at = db.Column(db.DateTime, unique=False)
+    created_at = db.Column(db.DateTime, unique=False, default=db.func.now())
+    updated_at = db.Column(db.DateTime, unique=False, default=db.func.now(), onupdate=db.func.now())
     # movies = relationship('Movies', secondary = 'MovieActors')
+
+    def __init_(self, name, biography, profile_url, birth_date, ):
+        self.name = name
+        self.biography = biography
+        self.profile_url = profile_url
+        self.birth_date = birth_date
 
     def createDict(self):
         return { c.key: getattr(self, c.key) for c in inspect(self).mapper.column_attrs }

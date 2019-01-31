@@ -16,7 +16,7 @@ class InvalidUsage(Exception):
         result['message'] = self.message
         return result
 
-def getAll():
+def getAllMovies():
     result = Movies.query.all()
     if result is None:
         raise InvalidUsage('Error, No Movies in the Database', status_code= 400)
@@ -28,11 +28,9 @@ def getMovie(id):
     if result is None:
         raise InvalidUsage('Error, Movie not found', status_code= 404)
     else:
-        print(result)
         return Movies.createDict(result)
 
 def addMovie(film):
-    print(film)
     newFilm = Movies(film['name'], film['description'], film['release_date'], film['rating'], film['poster_url'])
     if film is None:
         raise InvalidUsage('Error, Movie cannot be created', status_code =404)
@@ -41,6 +39,13 @@ def addMovie(film):
         db.session.commit()
         db.session.refresh(newFilm)
         return newFilm.id
+
+def updateMovie(id, data):
+    movie = Movies.query.filter_by(id = id).update({'name': data['name'], 'description': data['description'], 'release_date': data['release_date'], 'rating': data['rating'], 'poster_url': data['poster_url']})
+    db.session.commit()
+    db.session.flush()
+    result = getMovie(id)
+    return result
 
 def deleteMovie(id):
     result = Movies.query.get(id)

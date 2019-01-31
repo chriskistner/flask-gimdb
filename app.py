@@ -12,6 +12,7 @@ db.init_app(app)
 
 from controllers.movies import *
 from models.movies import *
+from models.actors import *
 
 @app.route('/')
 
@@ -22,14 +23,14 @@ def hello_world():
 @app.route('/movies', methods=['GET', 'POST'])
 def moviesRoutes():
     if request.method == 'GET':
-        result = getAll()
+        result = getAllMovies()
         return jsonify(result)
     elif request.method == 'POST':
         data= request.get_json()
         result = createMovie(data)
         return jsonify(result)
 
-@app.route('/movies/<movieId>', methods=['GET', 'DELETE'])
+@app.route('/movies/<movieId>', methods=['GET', 'DELETE', 'PATCH'])
 def movieRoutes(movieId):
     if request.method == 'GET':
         result = getMovie(movieId)
@@ -37,6 +38,23 @@ def movieRoutes(movieId):
     elif request.method == 'DELETE':
         result = dropMovie(movieId)
         return jsonify(result)
+    elif request.method == 'PATCH':
+        data = request.get_json()
+        result = updateMovie(movieId, data)
+        return jsonify(result)
+
+# Actor Routes
+@app.route('/actors', methods=['GET', 'POST'])
+def actorsRoutes():
+    if request.method == 'GET':
+        result.getAllActors()
+        return jsonif(result)
+    elif request.method == 'POST':
+        data = request.get_json()
+        result = createActor(data)
+        return jsonify(result)
+
+
 
 # Error Handler Route
 # @app.errorhandler(InvalidUsage)
