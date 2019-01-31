@@ -11,8 +11,7 @@ class Movies(db.Model):
     release_date = db.Column(db.DateTime, unique=False, nullable=False)
     rating = db.Column(db.String(5), unique=False, nullable=False)
     poster_url = db.Column(db.Text(), unique=False, nullable=True)
-    created_at = db.Column(db.DateTime, unique=False)
-    updated_at = db.Column(db.DateTime, unique=False)
+    created_at = db.Column(db.DateTime, unique=False, default=db.func.now(), onupdate=db.func.now())
     # actors = relationship('Actors', secondary = 'MovieActors')
 
     def __init__(self, name, description, release_date, rating, poster_url):

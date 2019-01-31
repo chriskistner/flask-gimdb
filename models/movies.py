@@ -39,7 +39,8 @@ def addMovie(film):
     else: 
         db.session.add(newFilm)
         db.session.commit()
-        return newFilm
+        db.session.refresh(newFilm)
+        return newFilm.id
 
 def deleteMovie(id):
     result = Movies.query.get(id)
