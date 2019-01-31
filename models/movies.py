@@ -16,38 +16,38 @@ class InvalidUsage(Exception):
         result['message'] = self.message
         return result
 
-def GetAll():
+def getAll():
     result = Movies.query.all()
     if result is None:
         raise InvalidUsage('Error, No Movies in the Database', status_code= 400)
     else: 
         return Movies.serialize_list(result)
 
-def GetMovie(id):
+def getMovie(id):
     result = Movies.query.get(id)
     if result is None:
         raise InvalidUsage('Error, Movie not found', status_code= 404)
     else:
         print(result)
-        return Movies.serialize_list(result)
+        return Movies.createDict(result)
 
-
-def CreateMovie(film):
-    result = Movies.createDict(film)
-    if result is None:
+def addMovie(film):
+    print(film)
+    newFilm = Movies(film['name'], film['description'], film['release_date'], film['rating'], film['poster_url'])
+    if film is None:
         raise InvalidUsage('Error, Movie cannot be created', status_code =404)
     else: 
-        db.session.add(result)
+        db.session.add(newFilm)
         db.session.commit()
-        return Movies.serialize_list(result)
+        return newFilm
 
-def dropMovie(id):
-    result = Movies.query.filter_by(id=id).first()
+def deleteMovie(id):
+    result = Movies.query.get(id)
     if result is None:
         raise InvalidUsage('Error, Movie does not exist', status_code = 404)
     else: 
-        db.sessions.delete(result)
-        db.sessions.commit()
-        return Movies.serialize_list(result)
+        db.session.delete(result)
+        db.session.commit()
+        return Movies.createDict(result)
 
 

@@ -20,22 +20,22 @@ def hello_world():
 
 # Movie Routes
 @app.route('/movies', methods=['GET', 'POST'])
-def MoviesRoutes():
+def moviesRoutes():
     if request.method == 'GET':
-        result = GetAll()
+        result = getAll()
         return jsonify(result)
     elif request.method == 'POST':
-        data = request.form
-        result = CreateMovie(data)
+        data= request.get_json()
+        result = createMovie(data)
         return jsonify(result)
 
 @app.route('/movies/<movieId>', methods=['GET', 'DELETE'])
-def MovieRoutes(movieId):
+def movieRoutes(movieId):
     if request.method == 'GET':
-        result = GetMovie(movieId)
+        result = getMovie(movieId)
         return jsonify(result)
     elif request.method == 'DELETE':
-        result = DropMovie(movieId)
+        result = dropMovie(movieId)
         return jsonify(result)
 
 # Error Handler Route
